@@ -25,6 +25,7 @@ Menyn ska hanteras i en **egen databas** och arbetet ska ske i ett **eget repo**
 - Skapa en **egen MongoDB-databas** (du får alltså inte använda gruppens).
 - Skapa en **menu/products-collection** och lägg in menyn manuellt via MongoDB Compass.
 - Dokumentationen från del 1 har uppdaterats och den [hittar ni här](https://gist.github.com/Santosnr6/82cb658f21006799767cea1f1f90fd53). 3 nya endpoints har lagts till.
+- Dokumentationen innehåller dessutom ett antal kompletteringsuppgifter från tidigare år. Dessa är frivilliga att göra om man vill fylla ut veckan med mer arbete.
 - Ge **läraren**:
     - Network Access till din databas (IP: `2.248.92.11`)
     - Din **Connection String** både för Compass och Drivers – skriv dem i en **kommentar i din inlämning** (lägg även in kontouppgifterna för den användare ni skapar åt mig). (Se till att fixa deta då jag inte kommer påminna er, missar ni blir det komplettering)
