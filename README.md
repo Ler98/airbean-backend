@@ -14,7 +14,7 @@ Du ska bygga tre skyddade endpoints där en admin kan:
 - **Uppdatera** en befintlig produkt
 - **Ta bort** en produkt från menyn
 
-Menyn ska hanteras i en **egen databas** och arbetet ska ske i ett **eget repo**. Du kan använda er befintliga gruppkod som grund, eller välja att börja om med den bifogade startkoden.
+Menyn ska hanteras i en **egen databas** och arbetet ska ske i ett **eget repo**. 
 
 ---
 
