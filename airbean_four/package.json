@@ -1,0 +1,33 @@
+{
+	"name": "airbean-backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon server.js",
+		"start": "node server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/AngelaRaven84/AirbeanAPIBackend.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "module",
+	"bugs": {
+		"url": "https://github.com/AngelaRaven84/AirbeanAPIBackend/issues"
+	},
+	"homepage": "https://github.com/AngelaRaven84/AirbeanAPIBackend#readme",
+	"dependencies": {
+		"dotenv": "^17.4.2",
+		"express": "^5.2.1",
+		"mongoose": "^9.6.3",
+		"swagger-ui-express": "^5.0.1",
+		"yamljs": "^0.3.0"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.14"
+	}
+}

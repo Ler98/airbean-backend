@@ -1,0 +1,293 @@
+openapi: 3.0.0
+info:
+  title: Airbean Backend API
+  version: 1.0.1
+  description: Swagger documentation for the Airbean backend API.
+
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+tags:
+  - name: Keys
+  - name: Menu
+  - name: Auth
+  - name: Cart
+  - name: Orders
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+
+  schemas:
+    MenuItem:
+      type: object
+      properties:
+        prodId:
+          type: string
+          example: prod-jespe
+        title:
+          type: string
+          example: Bryggkaffe
+        desc:
+          type: string
+          example: bryggd på månadens bönor.
+        price:
+          type: number
+          example: 39
+
+    UserRegister:
+      type: object
+      required:
+        - username
+        - password
+        - role
+      properties:
+        username:
+          type: string
+          example: sara
+        password:
+          type: string
+          example: password123
+        role:
+          type: string
+          enum: [user, admin]
+          example: user
+
+    UserLogin:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: sara
+        password:
+          type: string
+          example: password123
+
+    CartUpdate:
+      type: object
+      required:
+        - prodId
+        - qty
+      properties:
+        cartId:
+          type: string
+          example: 6a1dfd8c88687989fe4d8295
+        prodId:
+          type: string
+          example: prod-jespe
+        qty:
+          type: integer
+          example: 2
+
+    OrderCreate:
+      type: object
+      required:
+        - cartId
+      properties:
+        cartId:
+          type: string
+          example: 6a1dfd8c88687989fe4d8295
+
+paths:
+  /api/keys:
+    get:
+      tags:
+        - Keys
+      summary: Get random API key
+      description: Returns a random API key
+      responses:
+        '200':
+          description: API key returned successfully
+
+  /api/menu:
+    get:
+      tags:
+        - Menu
+      summary: Get menu
+      description: Returns all items from the menu.
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Menu returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+        '401':
+          description: Missing or invalid API key
+
+  /api/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register user
+      description: Registers a new user with role user or admin.
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+      responses:
+        '201':
+          description: User registrated successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Missing or invalid API key
+        '409':
+          description: User already exists
+
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login user
+      description: Logs in user and stores user globally.
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: User logged in successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Missing or invalid API key or wrong credentials
+
+  /api/cart:
+    get:
+      tags:
+        - Cart
+      summary: Get all carts
+      description: Returns all carts.
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Carts returned successfully
+        '401':
+          description: Missing or invalid API key
+
+    patch:
+      tags:
+        - Cart
+      summary: Update cart
+      description: Updates a cart. Logged-in users use their userId as cartId. Guests recieve a temporary cartId.
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartUpdate'
+      responses:
+        '200':
+          description: Cart updated successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Missing or invalid API key
+        '404':
+          description: Product not found
+
+  /api/cart/{cartId}:
+    get:
+      tags:
+        - Cart
+      summary: Get cart by cartId
+      description: Returns cart with the given cartId
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: cartId
+          required: true
+          schema:
+            type: string
+          example: 6a1dfd8c88687989fe4d8295
+      responses:
+        '200':
+          description: Cart returned successfully
+        '401':
+          description: Missing or invalid API key
+        '404':
+          description: Cart not found
+
+  /api/orders:
+    get:
+      tags:
+        - Orders
+      summary: Get all orders
+      description: Returns all orders
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Orders returned successfully
+        '401':
+          description: Missing or invalid API key
+
+    post:
+      tags:
+        - Orders
+      summary: Create order
+      description: Creates an order from the cartId sent in request body:
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderCreate"
+      responses:
+        "201":
+          description: Order created successfully
+        "400":
+          description: Invalid input
+        "401":
+          description: Missing or invalid API key
+        "404":
+          description: Cart not found
+
+  /api/orders/{userId}:
+    get:
+      tags:
+        - Orders
+      summary: Get orders by userId
+      description: Returns all orders connected to the given userId
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          example: 155a5
+      responses:
+        '200':
+          description: Orders returned successfully
+        "401":
+          description: Missing or invalid API key
+        "404":
+          description: No orders found

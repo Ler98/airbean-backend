@@ -26,37 +26,48 @@ Menyn ska hanteras i en **egen databas** och arbetet ska ske i ett **eget repo**
 - Skapa en **menu/products-collection** och lägg in menyn manuellt via MongoDB Compass.
 - Dokumentationen från del 1 har uppdaterats och den [hittar ni här](https://gist.github.com/Santosnr6/82cb658f21006799767cea1f1f90fd53). 3 nya endpoints har lagts till.
 - Ge **läraren**:
-  - Network Access till din databas (IP: `2.248.92.11`)
-  - Din **Connection String** både för Compass och Drivers – skriv dem i en **kommentar i din inlämning** (lägg även in kontouppgifterna för den användare ni skapar åt mig). (Se till att fixa deta då jag inte kommer påminna er, missar ni blir det komplettering)
+    - Network Access till din databas (IP: `2.248.92.11`)
+    - Din **Connection String** både för Compass och Drivers – skriv dem i en **kommentar i din inlämning** (lägg även in kontouppgifterna för den användare ni skapar åt mig). (Se till att fixa deta då jag inte kommer påminna er, missar ni blir det komplettering)
 - Använd **MYSECRET** som namn på din hemliga nyckel i `.env` för tokens
+
+## 📥 Tilldelning
+
+- airbean_one
+    - Martin, Konrad, Alexander, Sara
+- airbean_two
+    - Sughra, Leo, Vincent, Per
+- airbean_three
+    - Boss, Lisa, Feras, Jonathan
+- airbean_four
+    - Minna, Elias, Oliver
 
 ---
 
 ## ✅ Krav för Godkänt
 
 - ### ➕ Lägga till ny produkt
-  - Endpoint ska acceptera ett objekt i `req.body` med följande egenskaper: `title`, `desc`, `price`.
-  - Alla egenskaper måste finnas med
-  - Lägg till `prodId` och `createdAt` när en produkt skapas
+    - Endpoint ska acceptera ett objekt i `req.body` med följande egenskaper: `title`, `desc`, `price`.
+    - Alla egenskaper måste finnas med
+    - Lägg till `prodId` och `createdAt` när en produkt skapas
 
 - ### ✏️ Uppdatera produkt
-  - Uppdatera valfri befintlig produkt
-  - Lägg automatiskt till ett fält `modifiedAt` med aktuell tid
+    - Uppdatera valfri befintlig produkt
+    - Lägg automatiskt till ett fält `modifiedAt` med aktuell tid
 
 - ### ❌ Ta bort produkt
-  - Produkten ska tas bort om den finns
-  - Om produkten inte finns ska ett tydligt felmeddelande returneras
+    - Produkten ska tas bort om den finns
+    - Om produkten inte finns ska ett tydligt felmeddelande returneras
 
 - ### 🔐 Skyddade endpoints
-  - Alla tre endpoints ska vara skyddade av en **admin-middleware**
-  - Kontrollera att användaren är inloggad och har rollen `"admin"`
+    - Alla tre endpoints ska vara skyddade av en **admin-middleware**
+    - Kontrollera att användaren är inloggad och har rollen `"admin"`
 
 - ### ⚠️ Felhantering
-  - Fel (t.ex. ogiltiga fält, obehörig användare, icke-existerande produkt) ska returnera **relevanta felmeddelanden**
+    - Fel (t.ex. ogiltiga fält, obehörig användare, icke-existerande produkt) ska returnera **relevanta felmeddelanden**
 
 - ### 📘 Swagger
-  - Skapa **Swagger-dokumentation** för dina tre nya endpoints
- 
+    - Skapa **Swagger-dokumentation** för dina tre nya endpoints
+
 ---
 
 ## 🌟 VG-krav
