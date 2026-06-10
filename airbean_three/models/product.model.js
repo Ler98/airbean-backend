@@ -22,6 +22,9 @@ const productSchema = new Schema(
       type: Number,
       required: true,
     },
+    modifiedAt: {
+      type: Date,
+    },
   },
   { timestamps: true },
 );

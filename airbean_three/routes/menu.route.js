@@ -4,7 +4,11 @@ import {
   authenticateKey,
   authorizeAdmin,
 } from "../middlewares/auth.middleware.js";
-import { addNewProduct, addUpdateProduct } from "../services/menu.service.js";
+import {
+  addNewProduct,
+  addUpdateProduct,
+  deleteProduct,
+} from "../services/menu.service.js";
 
 const router = Router();
 
@@ -25,7 +29,7 @@ router.get("/", authenticateKey, async (req, res, next) => {
 });
 
 //detta har jag skrivit
-// POST lägg till ny produkt i menu
+// POST ** lägg till ny produkt i menu
 //tar emot req, res och next från express
 router.post("/", authenticateKey, authorizeAdmin, async (req, res, next) => {
   console.log("POST menu träffad");
@@ -60,7 +64,7 @@ router.post("/", authenticateKey, authorizeAdmin, async (req, res, next) => {
   }
 });
 
-//Uppdatera en produkt i menu
+//PUT ** Uppdatera en produkt i menu
 router.put(
   "/:prodId",
   authenticateKey,
@@ -80,11 +84,18 @@ router.put(
     const result = await addUpdateProduct(prodId, {
       prodId,
       ...updateProduct,
+      modifiedAt: new Date(),
       userId: global.user.userId,
       author: global.user.username,
     });
 
-    if (result.success) {
+    if (result.product === null) {
+      res.json({
+        status: 400,
+        success: false,
+        message: "produkten finns inte",
+      });
+    } else if (result.success) {
       console.log(result);
       res.json({
         success: true,
@@ -94,8 +105,39 @@ router.put(
     } else {
       next({
         status: 404,
-        message: "Du hamnade i else",
+        message: "Det gick inte att uppdatera en produkt",
         //result.message,
+      });
+    }
+  },
+);
+
+//DELETE ** Ta bort en produkt i menu
+router.delete(
+  "/:prodId",
+  authenticateKey,
+  authorizeAdmin,
+  async (req, res, next) => {
+    const { prodId } = req.params;
+    const result = await deleteProduct(prodId, { prodId });
+    console.log(result);
+
+    if (result.product === null) {
+      res.json({
+        status: 400,
+        success: false,
+        message: "produkten finns inte",
+      });
+    } else if (result.success) {
+      res.json({
+        success: true,
+        message: "Du tog bort produkten",
+        updateProduct: result.updateProduct,
+      });
+    } else {
+      next({
+        status: 404,
+        message: "Du lyckades inte ta bort en produkt",
       });
     }
   },

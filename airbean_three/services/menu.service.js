@@ -48,3 +48,19 @@ export const addUpdateProduct = async (prodId, product) => {
     };
   }
 };
+
+//DELETE ** ta bort en product i menu
+export const deleteProduct = async (prodId, product) => {
+  try {
+    const result = await Product.findOneAndDelete({ prodId }, product);
+    return {
+      success: true,
+      product: result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
