@@ -188,7 +188,7 @@ paths:
             description: Returns all menu items
             parameters:
                 - in: header
-                  name: x-api-key
+                  name: Authorization
                   required: true
                   schema:
                       $ref: "#/components/schemas/Key"
@@ -211,17 +211,148 @@ paths:
                     $ref: "#/components/responses/UnauthorizedResponse"
                 "404":
                     $ref: "#/components/responses/NotFoundResponse"
+
+        post:
+            tags:
+                - Menu
+            description: Add new product to menu
+            parameters:
+                - in: header
+                  name: Authorization
+                  required: true
+                  schema:
+                      $ref: "#/components/schemas/Key"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Product"
+            responses:
+                "201":
+                    description: Product successfully created
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    message:
+                                        type: string
+                                        example: Du la till en produkt
+                                    
+                "400":
+                    $ref: "#/components/responses/BadRequestResponse"
+                "401":
+                    $ref: "#/components/responses/UnauthorizedResponse"
+                "404":
+                    $ref: "#/components/responses/NotFoundResponse"
+
+        delete:
+            tags:
+                - Menu
+            description: Delete a product from the menu
+            parameters:
+                - in: header
+                  name: Authorization
+                  required: true
+                  schema:
+                      $ref: "#/components/schemas/Key"
+
+
+                - in: path
+                  name: prodId
+                  required: true
+                  schema:
+                    type: string
+                  description: The id of the product to delete
+
+            responses:
+                "200":
+                    description: Product deleted successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    message:
+                                        type: string
+                                        example: Du tog bort produkten
+                                    
+                "400":
+                    $ref: "#/components/responses/BadRequestResponse"
+                "401":
+                    $ref: "#/components/responses/UnauthorizedResponse"
+                "404":
+                    $ref: "#/components/responses/NotFoundResponse"        
+
+        put:
+            tags:
+                - Menu
+            description: Update an existing product in the menu
+            parameters:
+                - in: header
+                  name: Authorization
+                  required: true
+                  schema:
+                    $ref: "#/components/schemas/Key"
+
+                - in: path
+                  name: prodId
+                  required: true
+                  schema:
+                    type: string
+                    description: The id of the product to update
+
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Product"
+
+            responses:
+                "200":
+                    description: Product successfully updated
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: true
+                                message:
+                                type: string
+                                example: Produkten är uppdaterad
+                            updateProduct:
+                                $ref: "#/components/schemas/Product"
+
+                "400":
+                    $ref: "#/components/responses/BadRequestResponse"
+
+                "401":
+                $ref: "#/components/responses/UnauthorizedResponse"
+
+                "404":
+                $ref: "#/components/responses/NotFoundResponse"
+
     /api/auth/register:
         post:
             tags:
                 - Auth
             description: Register new user
             parameters:
-                - in: header
-                  name: x-api-key
-                  required: true
-                  schema:
-                      $ref: "#/components/schemas/Key"
+                # - in: header
+                #   name: Authorization
+                #   required: true
+                #   schema:
+                #       $ref: "#/components/schemas/Key"
             requestBody:
                 required: true
                 content:
@@ -265,7 +396,7 @@ paths:
             description: Login user
             parameters:
                 - in: header
-                  name: x-api-key
+                  name: Authorization
                   required: true
                   schema:
                       $ref: "#/components/schemas/Key"
@@ -304,7 +435,7 @@ paths:
             description: Logout user
             parameters:
                 - in: header
-                  name: x-api-key
+                  name: Authorization
                   required: true
                   schema:
                       $ref: "#/components/schemas/Key"
@@ -331,7 +462,7 @@ paths:
             description: Returns all carts
             parameters:
                 - in: header
-                  name: x-api-key
+                  name: Authorization
                   required: true
                   schema:
                       $ref: "#/components/schemas/Key"
@@ -360,7 +491,7 @@ paths:
             description: Add, remove or update quantity of an item in the cart. Creates a new cart if none exists.
             parameters:
                 - in: header
-                  name: x-api-key
+                  name: Authorization
                   required: true
                   schema:
                       $ref: "#/components/schemas/Key"
@@ -412,7 +543,7 @@ paths:
             description: Returns a specific cart by cartId
             parameters:
                 - in: header
-                  name: x-api-key
+                  name: Authorization
                   required: true
                   schema:
                       $ref: "#/components/schemas/Key"
@@ -447,7 +578,7 @@ paths:
             description: Returns all orders
             parameters:
                 - in: header
-                  name: x-api-key
+                  name: Authorization
                   required: true
                   schema:
                       $ref: "#/components/schemas/Key"
@@ -477,7 +608,7 @@ paths:
             description: Creates a new order from the cart with the given cartId. The cart is deleted after the order is created.
             parameters:
                 - in: header
-                  name: x-api-key
+                  name: Authorization
                   required: true
                   schema:
                       $ref: "#/components/schemas/Key"
@@ -517,7 +648,7 @@ paths:
             description: Returns all orders for a specific user
             parameters:
                 - in: header
-                  name: x-api-key
+                  name: Authorization
                   required: true
                   schema:
                       $ref: "#/components/schemas/Key"
